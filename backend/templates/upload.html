@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Upload to: {{ folder_name }}</h2>
+<div class="card">
+    <form method="post" action="/kb/{{ folder_name }}/upload/check" enctype="multipart/form-data">
+        <label>Choose a file (pdf, docx, txt, md):</label>
+        <input type="file" name="file" accept=".pdf,.docx,.txt,.md" required>
+        <button type="submit">Check &amp; Continue</button>
+    </form>
+    <p><small>Next step will run duplicate detection and suggest tags/filename based on the content.</small></p>
+</div>
+{% endblock %}
