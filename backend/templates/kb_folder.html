@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Folder: {{ folder_name }}</h2>
+
+{% if user.role.name == "superadmin" %}
+<div class="card">
+    <strong>Switch folder:</strong>
+    {% for p in personas %}
+        <a href="/kb/{{ p }}">{{ p }}</a>{% if not loop.last %} | {% endif %}
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if can_write %}
+<p><a href="/kb/{{ folder_name }}/upload"><button>+ Upload New Document</button></a></p>
+{% endif %}
+
+{% for row in docs %}
+<div class="card">
+    <strong>{{ row.doc.display_name }}</strong>
+    {% if row.version %} (v{{ row.version.version_number }}){% endif %}
+    <br>
+    <small>Doctype: {{ row.doc.doctype or "—" }}</small><br>
+    {% for k, v in row.tags.items() %}<span class="tag">{{ k }}: {{ v }}</span>{% endfor %}
+    <br><br>
+    <a href="/kb/{{ folder_name }}/document/{{ row.doc.id }}/download">Download</a>
+    | <a href="/kb/{{ folder_name }}/document/{{ row.doc.id }}/versions">Version History</a>
+    {% if can_write %}
+    | <form style="display:inline" method="post" action="/kb/{{ folder_name }}/document/{{ row.doc.id }}/delete"
+            onsubmit="return confirm('Delete this document?');">
+        <button type="submit" class="danger" style="padding:2px 8px;">Delete</button>
+      </form>
+    {% endif %}
+</div>
+{% else %}
+<p>No documents yet in this folder.</p>
+{% endfor %}
+{% endblock %}
