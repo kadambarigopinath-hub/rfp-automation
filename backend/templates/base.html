@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}RFP Automation - Knowledge Base{% endblock %}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <nav>
+        <strong>RFP Automation — Knowledge Base</strong>
+        {% if request.cookies.get('rfp_session') %}
+            <span class="nav-links">
+                <a href="/kb">Knowledge Base</a>
+                <a href="/admin/taxonomy">Admin: Taxonomy</a>
+                <a href="/admin/audit">Admin: Audit Log</a>
+                <a href="/logout">Log out</a>
+            </span>
+        {% endif %}
+    </nav>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
