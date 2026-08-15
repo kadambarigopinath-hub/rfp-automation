@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Audit Log (action-level)</h2>
+<table>
+    <tr><th>When</th><th>User</th><th>Action</th><th>Resource</th></tr>
+    {% for l in logs %}
+    <tr><td>{{ l.created_at }}</td><td>{{ l.user_id }}</td><td>{{ l.action }}</td><td>{{ l.resource_type }} / {{ l.resource_id }}</td></tr>
+    {% endfor %}
+</table>
+
+<h2>Change History (field-level)</h2>
+<table>
+    <tr><th>When</th><th>Entity</th><th>Field</th><th>Old</th><th>New</th><th>Changed By</th></tr>
+    {% for c in changes %}
+    <tr><td>{{ c.changed_at }}</td><td>{{ c.entity_type }} / {{ c.entity_id }}</td><td>{{ c.field_name }}</td>
+        <td>{{ c.old_value }}</td><td>{{ c.new_value }}</td><td>{{ c.changed_by_type }}: {{ c.changed_by }}</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}
