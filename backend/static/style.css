@@ -1,0 +1,15 @@
+body { font-family: -apple-system, sans-serif; margin: 0; background: #f7f7f8; color: #222; }
+nav { background: #1a1a2e; color: white; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; }
+nav a { color: #cfd8ff; text-decoration: none; margin-left: 16px; }
+nav a:hover { text-decoration: underline; }
+main { max-width: 900px; margin: 24px auto; padding: 0 16px; }
+.card { background: white; border-radius: 8px; padding: 16px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+input, select, textarea { padding: 8px; margin: 4px 0; width: 100%; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+button, input[type=submit] { background: #4a4ae0; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; margin: 4px 4px 4px 0; }
+button.secondary { background: #999; }
+button.danger { background: #d64545; }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 8px; border-bottom: 1px solid #eee; }
+.tag { display: inline-block; background: #eef; padding: 2px 8px; border-radius: 12px; font-size: 12px; margin-right: 4px; }
+.warning { background: #fff3cd; padding: 12px; border-radius: 6px; border: 1px solid #ffe08a; }
+.error { background: #fde2e2; padding: 12px; border-radius: 6px; border: 1px solid #f5a3a3; color: #7a1f1f; }
