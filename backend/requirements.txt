@@ -1,0 +1,23 @@
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+sqlalchemy==2.0.35
+psycopg2-binary==2.9.9
+pgvector==0.3.4
+pydantic==2.9.2
+pydantic-settings==2.5.2
+passlib[bcrypt]==1.7.4
+itsdangerous==2.2.0
+python-multipart==0.0.9
+boto3==1.35.36
+jinja2==3.1.4
+anthropic==0.36.0
+httpx==0.27.2
+python-docx==1.1.2
+pypdf==5.0.1
+datasketch==1.6.5
+
+# Optional, only needed if EMBEDDING_PROVIDER=local (Stage 3 dedup + RAG embeddings).
+# These are large installs (~1-2GB with torch) — the app runs fine without them,
+# just skips semantic near-duplicate checks and RAG embedding if not installed.
+# sentence-transformers==3.1.1
+# torch==2.4.1
