@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: rfp_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: rfp_admin
+      POSTGRES_PASSWORD: change_me_locally
+      POSTGRES_DB: rfp_automation
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+
+  minio:
+    image: minio/minio:latest
+    container_name: rfp_minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: rfp_admin
+      MINIO_ROOT_PASSWORD: change_me_locally
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: rfp_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+volumes:
+  pg_data:
+  minio_data:
