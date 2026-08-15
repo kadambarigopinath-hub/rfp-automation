@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Tag Taxonomy Configuration</h2>
+
+{% for folder in folders %}
+<div class="card">
+    <h3>{{ folder.name }}</h3>
+    <table>
+        <tr><th>Tag Key</th><th>Allowed Values</th><th>Required</th></tr>
+        {% for t in taxonomy_by_folder[folder.name] %}
+        <tr>
+            <td>{{ t.tag_key }}</td>
+            <td>{{ t.allowed_values|join(", ") if t.allowed_values else "(any)" }}</td>
+            <td>{{ "Yes" if t.required else "No" }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <form method="post" action="/admin/taxonomy/add">
+        <input type="hidden" name="folder_name" value="{{ folder.name }}">
+        <input type="text" name="tag_key" placeholder="New tag key (e.g. Product Name)" required>
+        <input type="text" name="allowed_values" placeholder="Allowed values, comma-separated (leave blank for any)">
+        <label><input type="checkbox" name="required"> Required</label>
+        <button type="submit">Add Tag</button>
+    </form>
+</div>
+{% endfor %}
+{% endblock %}
