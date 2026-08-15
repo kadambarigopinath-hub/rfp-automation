@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Confirm Upload</h2>
+
+{% if match_type == "exact" %}
+<div class="warning">
+    <strong>This file is identical in content to an existing document:</strong>
+    "{{ matched_document_name }}" (v{{ matched_version }}).<br>
+    You can proceed anyway (saved as a new revision despite identical content), or cancel.
+</div>
+{% elif match_type == "near" %}
+<div class="warning">
+    <strong>This looks like it may be a new version of an existing document:</strong>
+    "{{ matched_document_name }}" (currently v{{ matched_version }}).<br>
+    Confirm to add this as v{{ matched_version + 1 }}, or treat it as an unrelated new document.
+</div>
+{% endif %}
+
+<div class="card">
+    <form method="post" action="/kb/{{ folder_name }}/upload/finalize">
+        <input type="hidden" name="token" value="{{ token }}">
+
+        <label>File name:</label>
+        <input type="text" name="display_name" value="{{ suggested_name }}" required>
+
+        <label>Doctype:</label>
+        <input type="text" name="doctype" value="{{ suggested_doctype }}" required>
+
+        <h4>Tags</h4>
+        {% for t in taxonomy %}
+        <label>
+            {{ t.tag_key }}{% if t.required %} <span style="color:red;">*required</span>{% endif %}
+            {% if t.allowed_values %}(allowed: {{ t.allowed_values|join(", ") }}){% endif %}
+        </label>
+        <input type="text" name="tag_{{ t.tag_key }}" value="{{ suggested_tags.get(t.tag_key, '') }}">
+        {% endfor %}
+
+        <h4>Decision</h4>
+        {% if match_type == "exact" %}
+            <label><input type="radio" name="decision" value="save_anyway_same_content" checked> Save anyway as a new revision</label><br>
+            <label><input type="radio" name="decision" value="cancel"> Cancel this upload</label>
+        {% elif match_type == "near" %}
+            <label><input type="radio" name="decision" value="link_as_new_version" checked> Yes, add as v{{ matched_version + 1 }} of "{{ matched_document_name }}"</label><br>
+            <label><input type="radio" name="decision" value="new_document"> No, treat as a new, unrelated document</label><br>
+            <label><input type="radio" name="decision" value="cancel"> Cancel this upload</label>
+        {% else %}
+            <input type="hidden" name="decision" value="new_document">
+            <p>No duplicate detected — this will be saved as a new document.</p>
+        {% endif %}
+
+        <br><button type="submit">Confirm</button>
+        <a href="/kb/{{ folder_name }}"><button type="button" class="secondary">Cancel</button></a>
+    </form>
+</div>
+{% endblock %}
