@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Version History: {{ document.display_name }}</h2>
+<table>
+    <tr><th>Version</th><th>Uploaded By</th><th>Uploaded At</th><th></th></tr>
+    {% for v in versions %}
+    <tr>
+        <td>v{{ v.version_number }}{% if v.id == document.current_version_id %} (current){% endif %}</td>
+        <td>{{ v.uploaded_by }}</td>
+        <td>{{ v.uploaded_at }}</td>
+        <td><a href="/kb/{{ folder_name }}/document/{{ document.id }}/download?version={{ v.version_number }}">Download</a></td>
+    </tr>
+    {% endfor %}
+</table>
+<p><a href="/kb/{{ folder_name }}">Back to folder</a></p>
+{% endblock %}
